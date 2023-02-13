@@ -1,0 +1,129 @@
+CREATE SCHEMA `FazendaEletronica`;
+
+CREATE TABLE `FazendaEletronica`.`TB_Usuario` (
+  `ID_INT_USUARIO` INT NOT NULL AUTO_INCREMENT,
+  `TXT_LOGIN` VARCHAR(45) NOT NULL,
+  `TXT_PASSWORD` LONGTEXT NOT NULL,
+  `TXT_NOME` VARCHAR(200) NOT NULL,
+  `TXT_EMAIL` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`ID_INT_USUARIO`, `TXT_LOGIN`, `TXT_EMAIL`));
+
+CREATE TABLE `FazendaEletronica`.`TB_Animal` (
+  `ID_INT_ANIMAL` INT NOT NULL AUTO_INCREMENT,
+  `ID_INT_USUARIO_CRIADOR` INT NOT NULL,
+  `INT_NUMERO_ANIMAL` INT NOT NULL,
+  `ID_INT_PAI` INT NULL,
+  `CHA_SEXO` CHAR(1) NOT NULL,
+  `ID_INT_FINALIDADE` INT NOT NULL,
+  `TXT_APELIDO` VARCHAR(45) NULL,
+  `DAT_NASCIMENTO` DATE NULL,
+  `ID_INT_STATUS` INT NOT NULL,
+  `ID_INT_TIPO_ANIMAL` INT NOT NULL,
+  PRIMARY KEY (`ID_INT_ANIMAL`));
+
+CREATE TABLE `FazendaEletronica`.`TB_Finalidade` (
+  `ID_INT_FINALIDADE` INT NOT NULL AUTO_INCREMENT,
+  `TXT_NOME` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID_INT_FINALIDADE`));
+
+CREATE TABLE `FazendaEletronica`.`TB_Pagamento` (
+  `ID_INT_PAGAMENTO` INT NOT NULL AUTO_INCREMENT,
+  `ID_INT_USUARIO_CRIADOR` INT NOT NULL,
+  `ID_INT_TIPO_PAGAMENTO` INT NULL,
+  `CHAR_TIPO_ENTRADA_SAIDA` CHAR(1) NOT NULL,
+  `TXT_DESCRICAO` VARCHAR(200) NULL,
+  `DAT_PAGAMENTO` DATE NULL,
+  `VLR_PAGAMENTO` DECIMAL(18,2) NOT NULL,
+  PRIMARY KEY (`ID_INT_PAGAMENTO`))
+COMMENT = 'CHAR_TIPO_ENTRADA_SAIDA onde S é saida e E é entrada';
+
+CREATE TABLE `FazendaEletronica`.`TB_Tipo_Pagamento` (
+  `ID_INT_TIPO_PAGAMENTO` INT NOT NULL AUTO_INCREMENT,
+  `TXT_NOME` VARCHAR(45) NOT NULL,
+  `TXT_DESCRICAO` VARCHAR(200) NULL,
+  `ID_INT_USUARIO_CRIADOR` INT NULL,
+  PRIMARY KEY (`ID_INT_TIPO_PAGAMENTO`));
+
+CREATE TABLE `FazendaEletronica`.`TB_Status` (
+  `ID_INT_STATUS` INT NOT NULL AUTO_INCREMENT,
+  `TXT_STATUS` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`ID_INT_STATUS`));
+
+CREATE TABLE `FazendaEletronica`.`TB_Tipo_Animal` (
+  `ID_INT_TIPO_ANIMAL` INT NOT NULL AUTO_INCREMENT,
+  `TXT_NOME` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`ID_INT_TIPO_ANIMAL`));
+
+ALTER TABLE `FazendaEletronica`.`TB_Animal` 
+ADD INDEX `FK_ID_INT_FINALIDADE_idx` (`ID_INT_FINALIDADE` ASC) VISIBLE,
+ADD INDEX `FK_TB_STATUS_idx` (`ID_INT_STATUS` ASC) VISIBLE,
+ADD INDEX `FK_ID_INT_TIPO_ANIMAL_idx` (`ID_INT_TIPO_ANIMAL` ASC) VISIBLE;
+;
+ALTER TABLE `FazendaEletronica`.`TB_Animal` 
+ADD CONSTRAINT `FK_ID_INT_FINALIDADE`
+  FOREIGN KEY (`ID_INT_FINALIDADE`)
+  REFERENCES `FazendaEletronica`.`TB_Finalidade` (`ID_INT_FINALIDADE`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `FK_ID_INT_STATUS`
+  FOREIGN KEY (`ID_INT_STATUS`)
+  REFERENCES `FazendaEletronica`.`TB_Status` (`ID_INT_STATUS`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `FK_ID_INT_TIPO_ANIMAL`
+  FOREIGN KEY (`ID_INT_TIPO_ANIMAL`)
+  REFERENCES `FazendaEletronica`.`TB_Tipo_Animal` (`ID_INT_TIPO_ANIMAL`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `FazendaEletronica`.`TB_Pagamento` 
+ADD CONSTRAINT `FK_ID_INT_USUARIO_CRIADOR`
+  FOREIGN KEY (`ID_INT_USUARIO_CRIADOR`)
+  REFERENCES `FazendaEletronica`.`TB_Usuario` (`ID_INT_USUARIO`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `FK_ID_INT_TIPO_PAGAMENTO`
+  FOREIGN KEY (`ID_INT_TIPO_PAGAMENTO`)
+  REFERENCES `FazendaEletronica`.`TB_Tipo_Pagamento` (`ID_INT_TIPO_PAGAMENTO`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `FazendaEletronica`.`TB_Animal` 
+ADD COLUMN `DAT_MODIFICACAO` DATE NOT NULL AFTER `ID_INT_TIPO_ANIMAL`;
+
+ALTER TABLE `FazendaEletronica`.`TB_Tipo_Pagamento` 
+ADD COLUMN `BIT_ATIVO` TINYINT(1) NOT NULL AFTER `ID_INT_USUARIO_CRIADOR`;
+
+CREATE TABLE `FazendaEletronica`.`TB_Parametro` (
+  `ID_INT_PARAMETRO` INT NOT NULL AUTO_INCREMENT,
+  `TXT_CHAVE` VARCHAR(45) NOT NULL,
+  `TXT_VALOR` LONGTEXT NOT NULL,
+  PRIMARY KEY (`ID_INT_PARAMETRO`, `TXT_CHAVE`));
+
+
+INSERT INTO `FazendaEletronica`.`TB_Finalidade` (`TXT_NOME`) VALUES ('Corte');
+INSERT INTO `FazendaEletronica`.`TB_Finalidade` (`TXT_NOME`) VALUES ('Leite');
+
+INSERT INTO `FazendaEletronica`.`TB_Tipo_Animal` (`TXT_NOME`) VALUES('Ovino');
+INSERT INTO `FazendaEletronica`.`TB_Tipo_Animal` (`TXT_NOME`) VALUES('Caprino');
+INSERT INTO `FazendaEletronica`.`TB_Tipo_Animal` (`TXT_NOME`) VALUES('Bovino');
+INSERT INTO `FazendaEletronica`.`TB_Tipo_Animal` (`TXT_NOME`) VALUES('Suíno');
+INSERT INTO `FazendaEletronica`.`TB_Tipo_Animal` (`TXT_NOME`) VALUES('Ave');
+
+INSERT INTO `FazendaEletronica`.`TB_Status` (`TXT_STATUS`) VALUES ('Vendido');
+INSERT INTO `FazendaEletronica`.`TB_Status` (`TXT_STATUS`) VALUES ('Em campo');
+INSERT INTO `FazendaEletronica`.`TB_Status` (`TXT_STATUS`) VALUES ('Morto');
+
+SELECT * FROM FazendaEletronica.TB_Parametro;
+
+INSERT INTO `FazendaEletronica`.`TB_Parametro` (`ID_INT_PARAMETRO`, `TXT_CHAVE`, `TXT_VALOR`) VALUES ('1', 'EMAIL', '<p style="text-align: center;"><img class="n3VNCb KAlRDb" src="https://static.vecteezy.com/ti/vetor-gratis/t2/1592203-farm-landscape-with-field-and-red-barn-in-summer-season-gr%C3%A1tis-vetor.jpg" alt="Fazenda Eletr&ocirc;nica" width="351" height="118" data-noaft="1" /></p>
+        <p style="text-align: center;">Ol&aacute; <strong>${usuario.result[0].TXT_NOME}!</strong></p>
+        <p style="text-align: center;">Essa&nbsp;email &eacute;&nbsp;referente ao seu pedido de&nbsp;altera&ccedil;&atilde;o de&nbsp;senha.</p>
+        <p style="text-align: center;">Entre no link abaixo para efetuar&nbsp;a altera&ccedil;&atilde;o, lembrando que&nbsp;ele&nbsp;se&nbsp;expira&nbsp;1 hora ap&oacute;s enviado.</p>
+        <p style="text-align: center;">&nbsp;</p>
+        <p style="text-align: center;"><span style="font-family: symbol;"><a href="${link}"><button style="text-align: center; background-color: black; border: none; color: white; padding: 10px 15px; text-decoration: none; display: inline-block; font-size: 16px; border-radius: 10px;"> REDEFINA SUA SENHA</button></a></span></p>
+        <p style="text-align: center;">&nbsp;</p>
+        <p style="text-align: center;">Se n&atilde;o foi voc&ecirc; quem pediu&nbsp;a alter&ccedil;&atilde;o&nbsp;pode&nbsp;ignorar esse email.</p>
+        <p style="text-align: center;">Abra&ccedil;os da equipe da Fazenda Eletr&ocirc;nica.</p>
+        <p style="text-align: center;">&nbsp;</p>
+        <p style="text-align: center;"><a title="Clique aqui" href="http://fazendaeletronica.herokuapp.com" target="_blank" rel="noopener">Clique aqui</a>&nbsp;para acessar nosso site.</p>');
