@@ -18,7 +18,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./API/index.ts"
+    "dev": "nodemon ./API/index.ts",
+    "start": "tsc -w"
   },
   "keywords": [],
   "author": "",
