@@ -8,8 +8,8 @@ export class mAnimal{
                 db.query(
                 `INSERT INTO TB_Animal
                 (ID_INT_USUARIO_CRIADOR, INT_NUMERO_ANIMAL, ID_INT_PAI, CHA_SEXO, 
-                ID_INT_FINALIDADE, TXT_APELIDO, DAT_NASCIMENTO, ID_INT_STATUS, ID_INT_TIPO_ANIMAL)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                ID_INT_FINALIDADE, TXT_APELIDO, DAT_NASCIMENTO, ID_INT_STATUS, ID_INT_TIPO_ANIMAL, DAT_MODIFICACAO)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
                 [animal.idCriador, animal.numero, animal.idPai, animal.charSexo, animal.idFinalidade, 
                 animal.apelido, animal.nascimento, animal.idStatus, animal.idTipoAnimal], (erro: any) => {
                     if (erro) rejects({code: 500, result: {error: erro}});
@@ -47,7 +47,7 @@ export class mAnimal{
                 db.query(`
                 UPDATE FROM TB_Animal SET
                 INT_NUMERO_ANIMAL = ?, ID_INT_PAI = ?, CHA_SEXO = ?, ID_INT_FINALIDADE = ?, 
-                TXT_APELIDO = ?, DAT_NASICMENTO = ?, ID_INT_STATUS = ?, ID_INT_TIPO_ANIMAL = ?
+                TXT_APELIDO = ?, DAT_NASICMENTO = ?, ID_INT_STATUS = ?, ID_INT_TIPO_ANIMAL = ?, DAT_MODIFICACAO = NOW()
                 WHERE ID_INT_ANIMAL = ?`,
                 [animal.numero, animal.idPai, animal.charSexo, animal.idFinalidade, animal.apelido, 
                 animal.nascimento, animal.idStatus, animal.idTipoAnimal, animal.idAnimal], (erro: any) => {
@@ -71,7 +71,7 @@ export class mAnimal{
             return new Promise((resolve, rejects) => {
                 db.query(`SELECT ID_INT_USUARIO_CRIADOR FROM TB_Animal WHERE ID_INT_ANIMAL = ?`, [idAnimal], 
                 (erro: any, result: Array<any>) => {
-                    if (erro) rejects (erro)
+                    if (erro) rejects (false)
                     else{
                         if(result.length == 1){
                             if (result[0].ID_INT_USUARIO_CRIADOR == idUsuarioLogado){
@@ -141,23 +141,21 @@ export class mAnimal{
         static async telaPrincipal (idUsuarioLogado: Number) {
             return new Promise((resolve, rejects) => {
                 db.query(`
-                SET @IdUser = ?;
                 SELECT S.TXT_STATUS, COUNT(*) AS TOTAL FROM TB_Animal A
                             JOIN TB_Status S ON S.ID_INT_STATUS = A.ID_INT_STATUS
                             JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
-                            WHERE A.ID_INT_USUARIO_CRIADOR = @IdUser AND A.ID_INT_STATUS IN
+                            WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN
                             (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Em Campo')
                             GROUP BY S.ID_INT_STATUS
                 UNION
                 SELECT S.TXT_STATUS, COUNT(*) AS TOTAL FROM TB_Animal A
                             JOIN TB_Status S ON S.ID_INT_STATUS = A.ID_INT_STATUS
                             JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
-                            WHERE A.ID_INT_USUARIO_CRIADOR = @IdUser AND A.ID_INT_STATUS IN
+                            WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN
                             (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS <> 'Em Campo')
                             AND YEAR(A.DAT_MODIFICACAO) = YEAR(NOW()) AND MONTH(A.DAT_MODIFICACAO) = MONTH(NOW())
                             GROUP BY S.ID_INT_STATUS`
-                ,[idUsuarioLogado], (erro: any, result: any) => {
-                    console.log(erro)
+                ,[idUsuarioLogado, idUsuarioLogado], (erro: any, result: any) => {
                     if (erro) rejects({code: 500, result: {error: erro}});
                     else resolve({code: 200, result: {result: result}});
                 })

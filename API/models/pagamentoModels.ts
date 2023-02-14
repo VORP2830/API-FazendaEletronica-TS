@@ -85,7 +85,9 @@ export class mPagamento{
 
     static async listar (IdUsuarioLogado: Number) {
         return new Promise((resolve, rejects) => {
-            db.query(`SELECT * FROM TB_Pagamento WHERE ID_INT_USUARIO_CRIADOR = ?`, 
+            db.query(`SELECT P.ID_INT_PAGAMENTO, P.CHAR_TIPO_ENTRADA_SAIDA, P.TXT_DESCRICAO, P.DAT_PAGAMENTO, P.VLR_PAGAMENTO, TP.TXT_NOME FROM FazendaEletronica.TB_Pagamento P
+            JOIN FazendaEletronica.TB_Tipo_Pagamento TP ON TP.ID_INT_TIPO_PAGAMENTO = P.ID_INT_TIPO_PAGAMENTO
+            WHERE P.ID_INT_USUARIO_CRIADOR = ?`, 
             [IdUsuarioLogado], (erro, result) => {
                 if (erro) rejects({code: 500, result: {error: "Não existem pagamentos cadastrados"}});
                 else resolve ({code: 200, result: {result: result}});

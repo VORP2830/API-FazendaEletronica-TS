@@ -22,7 +22,7 @@
     "start": "tsc -w"
   },
   "keywords": [],
-  "author": "",
+  "author": "Victor Osório",
   "license": "ISC",
   "description": "",
   "devDependencies": {

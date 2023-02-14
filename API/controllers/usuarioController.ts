@@ -7,16 +7,15 @@ export class cUsuario {
 
     static async adicionar (req: Request, res: Response) {
         const { login, senha, nome, email }: any = req.body;
-
-        const usuario = new sUsuario({
-            login: login.toLowerCase().trim(),
-            senha: hashSync(senha, 10),
-            nome,
-            email: email.toLowerCase().trim()
-        })
-
-        const result: any = await sUsuario.adicionar(usuario)
-        res.status(result.code).json(result.result)
+            const usuario = new sUsuario({
+                login: login.toLowerCase().trim(),
+                senha: hashSync(senha, 10),
+                nome,
+                email: email.toLowerCase().trim()
+            })
+    
+            const result: any = await sUsuario.adicionar(usuario)
+            res.status(result.code).json(result.result)
     }
 
     static async login (req: Request, res: Response) {

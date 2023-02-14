@@ -38,7 +38,7 @@ export class sAnimal {
         };
     }
 
-    static async deletar (idUsuarioLogado: number, idAnimal : number) {
+    static async deletar (idUsuarioLogado: number, idAnimal: number) {
         if (await mAnimal.temPermissao(idUsuarioLogado, idAnimal)){
             return await mAnimal.deletar(idAnimal);
         } else {
