@@ -8,6 +8,7 @@ const app: Express = express();
 const port = process.env.PORT;
 
 app.use(routes)
+app.disable('x-powered-by')
 
 app.get('/', (req: Request, res: Response ) => {
     res.send('<h1 style="text-align: center;">Bem vindo à API</h1>');

@@ -11,9 +11,13 @@ import { router as tipoFinalidadeRouter } from './tipoFinalidadeRouter';
 import { router as tipoStatusRouter } from './tipoStatusRouter';
 
 const app = Router();
- 
+
+let CorsOption = {
+    origin: '*'
+};
+
 app.use(
-    cors(),
+    cors(CorsOption),
     bodyParser.json(),
     usuarioRouter,
     pagamentoRouter,
