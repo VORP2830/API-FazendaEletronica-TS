@@ -1,4 +1,4 @@
-export interface iAnimal {
+export interface InterfaceAnimal {
     idAnimal?: number,
     idCriador: number,
     numero: number,

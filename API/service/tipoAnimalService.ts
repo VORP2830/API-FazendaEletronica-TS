@@ -1,8 +1,8 @@
-import { mTipoAnimal } from "../models/tipoAnimalModels";
+import { TipoAnimalModel } from "../models/tipoAnimalModels";
 
-export class sTipoAnimal {
+export class TipoAnimalService {
 
     static async listar() {
-        return mTipoAnimal.listar()
+        return TipoAnimalModel.listar()
     }
 }

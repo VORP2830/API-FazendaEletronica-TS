@@ -1,5 +1,5 @@
-import { mUsuario } from "../models/usuarioModels";
-import { iUsuario } from "../interface/usuario";
+import { UsuarioModel } from "../models/usuarioModels";
+import { InterfaceUsuario } from "../interface/usuario";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { compareSync } from "bcrypt";
@@ -8,14 +8,14 @@ dotenv.config();
 
 const secret: any = process.env.SECRET
 
-export class sUsuario {
+export class UsuarioService {
     idUsuario?: number;
     login?: string;
     senha: string;
     email?: string;
     nome?: string;
 
-    constructor(usuario: iUsuario){
+    constructor(usuario: InterfaceUsuario){
         this.idUsuario = usuario.idUsuario;
         this.login = usuario.login;
         this.senha = usuario.senha;
@@ -23,17 +23,17 @@ export class sUsuario {
         this.nome = usuario.nome;
     }
     
-    static async adicionar (usuario: iUsuario) {
-        const buscarEmail: any = await mUsuario.buscarEmail(usuario.email as string);
-        const buscarLogin: any = await mUsuario.buscarLogin(usuario.login as string);
+    static async adicionar (usuario: InterfaceUsuario) {
+        const buscarEmail: any = await UsuarioModel.buscarEmail(usuario.email as string);
+        const buscarLogin: any = await UsuarioModel.buscarLogin(usuario.login as string);
         if(buscarEmail.result.result.length > 0) return {code: 200, result: {error: `Email já em uso`}}
         else if(buscarLogin.result.result.length > 0) return {code: 200, result: {error: `Login ja em uso`}}
-        else if(buscarEmail.result.result.length == 0 && buscarLogin.result.result.length == 0) return await mUsuario.adicionar(usuario)
+        else if(buscarEmail.result.result.length == 0 && buscarLogin.result.result.length == 0) return await UsuarioModel.adicionar(usuario)
         else return {code: 500, result: {error: `Era para ter dado certo!`}}
     }
 
-    static async login (usuario: iUsuario) {
-        const buscarLogin: any = await mUsuario.buscarLogin(usuario.login as string);
+    static async login (usuario: InterfaceUsuario) {
+        const buscarLogin: any = await UsuarioModel.buscarLogin(usuario.login as string);
         if(buscarLogin.result.result.length == 0) return {code: 200, result: {error: `Login ou senha invalidos`}}
         else if(buscarLogin.result.result.length == 1) {
             const senhaCorreta = compareSync(usuario.senha, buscarLogin.result.result[0].TXT_PASSWORD)
@@ -44,7 +44,7 @@ export class sUsuario {
         }
     }
 
-    static async alterarSenha (usuario: iUsuario) {
-        return mUsuario.alterarSenha(usuario)
+    static async alterarSenha (usuario: InterfaceUsuario) {
+        return UsuarioModel.alterarSenha(usuario)
     }
 }

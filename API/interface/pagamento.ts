@@ -1,4 +1,4 @@
-export interface iPagamento {
+export interface InterfacePagamento {
     idPagamento?: number,
     idCriador: number,
     idTipo?: number,

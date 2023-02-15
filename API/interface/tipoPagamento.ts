@@ -1,4 +1,4 @@
-export interface iTipoPagamento {
+export interface InterfaceTipoPagamento {
     idTipoPagamento?: number,
     nome: string,
     descricao: string,

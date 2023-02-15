@@ -1,6 +1,6 @@
 import { db } from "../config/database";
 
-export class mParametro {
+export class ParametroModel {
 
     static async  textoEmail () {
         return new Promise((resolve, rejects) => {

@@ -1,9 +1,9 @@
-import { iTipoPagamento } from "../interface/tipoPagamento";
+import { InterfaceTipoPagamento } from "../interface/tipoPagamento";
 import { db } from "../config/database";
 
-export class mTipoPagamento {
+export class TipoPagamentoModel {
 
-    static async adicionar (tipoPagamento: iTipoPagamento) {
+    static async adicionar (tipoPagamento: InterfaceTipoPagamento) {
         return new Promise((resolve, rejects) => {
             db.query(`INSERT INTO TB_Tipo_Pagamento (TXT_NOME, TXT_DESCRICAO, ID_INT_USUARIO_CRIADOR, BIT_ATIVO) VALUES (?,?,?,1)`, 
             [tipoPagamento.nome, tipoPagamento.descricao, tipoPagamento.idCriador],
@@ -14,7 +14,7 @@ export class mTipoPagamento {
         })
     }
 
-    static async atualizar (tipoPagamento: iTipoPagamento) {
+    static async atualizar (tipoPagamento: InterfaceTipoPagamento) {
         return new Promise((resolve, rejects) => {
             db.query(`UPDATE TB_Tipo_Pagamento SET TXT_NOME = ?, TXT_DESCRICAO = ?, BIT_ATIVO = ? WHERE ID_INT_TIPO_PAGAMENTO = ?`,
                 [tipoPagamento.nome, tipoPagamento.descricao, tipoPagamento.ativo, tipoPagamento.idCriador], erro => {
@@ -24,7 +24,7 @@ export class mTipoPagamento {
         })
     }
 
-    static async buscarId (idTipoPagamento: Number) {
+    static async buscarId (idTipoPagamento: number) {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT * FROM TB_Tipo_Pagamento WHERE ID_INT_TIPO_PAGAMENTO = ?`, 
             [idTipoPagamento], (erro, result) => {
@@ -34,7 +34,7 @@ export class mTipoPagamento {
         })
     }
 
-    static async deletar (idTipoPagamento: Number) {
+    static async deletar (idTipoPagamento: number) {
         return new Promise((resolve, rejects) => {
             db.query(`UPDATE TB_Tipo_Pagamento SET BIT_ATIVO = 0 WHERE ID_INT_TIPO_PAGAMENTO = ?`,
                 [idTipoPagamento], erro => {
@@ -44,7 +44,7 @@ export class mTipoPagamento {
         })
     }
 
-    static async listar (idUsuarioLogado: Number) {
+    static async listar (idUsuarioLogado: number) {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT * FROM TB_Tipo_Pagamento WHERE ID_INT_USUARIO_CRIADOR = ? AND BIT_ATIVO = 1`, 
             [idUsuarioLogado], (erro, result) => {
@@ -54,7 +54,7 @@ export class mTipoPagamento {
         })
     }
 
-    static async temPermissao (idUsuarioLogado: Number, idTipoPagamento: Number) {
+    static async temPermissao (idUsuarioLogado: number, idTipoPagamento: number) {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT ID_INT_USUARIO_CRIADOR FROM TB_Tipo_Pagamento WHERE ID_INT_TIPO_PAGAMENTO = ?`, [idTipoPagamento], 
             (erro, result: Array<any>) => {

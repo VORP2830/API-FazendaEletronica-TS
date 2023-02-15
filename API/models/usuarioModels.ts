@@ -1,9 +1,9 @@
-import { iUsuario } from "../interface/usuario";
+import { InterfaceUsuario } from "../interface/usuario";
 import { db } from "../config/database";
 
-export class mUsuario {
+export class UsuarioModel {
 
-    static async adicionar (usuario: iUsuario) {
+    static async adicionar (usuario: InterfaceUsuario) {
         return new Promise((resolve, rejects) => {
             db.query(`INSERT INTO TB_Usuario (TXT_LOGIN, TXT_PASSWORD, TXT_NOME, TXT_EMAIL) VALUES (?, ?, ?, ?)`,
             [usuario.login, usuario.senha, usuario.nome, usuario.email], erro => {
@@ -13,7 +13,7 @@ export class mUsuario {
         })
     }
     
-    static async alterarSenha (usuario: iUsuario) {
+    static async alterarSenha (usuario: InterfaceUsuario) {
         return new Promise((resolve, rejects) => {
             db.query(`UPDATE TB_Usuario SET TXT_PASSWORD = ? WHERE ID_INT_USUARIO = ?`, 
             [usuario.senha, usuario.idUsuario], (erro) => {
@@ -23,7 +23,7 @@ export class mUsuario {
         })
     }
 
-    static async buscarId (idUsuario: Number) {
+    static async buscarId (idUsuario: number) {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT * FROM TB_Usuario WHERE ID_INT_USUARIO = ?`, 
             [idUsuario], (erro, result) => {
@@ -33,7 +33,7 @@ export class mUsuario {
         })
     }
 
-    static async buscarEmail (email: String) {
+    static async buscarEmail (email: string) {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT * FROM TB_Usuario WHERE TXT_EMAIL = ?`,
             [email], (erro, result) => {
@@ -43,7 +43,7 @@ export class mUsuario {
         })
     }
 
-    static async buscarLogin (login: String) {
+    static async buscarLogin (login: string) {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT * FROM TB_Usuario WHERE TXT_LOGIN = ?`,
             [login], (erro, result) => {

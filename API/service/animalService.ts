@@ -1,7 +1,7 @@
-import { mAnimal } from '../models/animalModels'
-import { iAnimal } from '../interface/animal'
+import { AnimalModel } from '../models/animalModels'
+import { InterfaceAnimal } from '../interface/animal'
 
-export class sAnimal {
+export class AnimalService {
     idAnimal?: number;
     idCriador: number;
     numero: number;
@@ -13,7 +13,7 @@ export class sAnimal {
     idStatus: number;
     idTipoAnimal: number;
 
-    constructor(animal: iAnimal){
+    constructor(animal: InterfaceAnimal){
         this.idAnimal = animal.idAnimal;
         this.idCriador = animal.idCriador;
         this.numero = animal.numero;
@@ -26,52 +26,52 @@ export class sAnimal {
         this.idTipoAnimal = animal.idTipoAnimal;
     }
 
-    static async adicionar (animal: iAnimal) {
-        return await mAnimal.adicionar(animal);
+    static async adicionar (animal: InterfaceAnimal) {
+        return await AnimalModel.adicionar(animal);
     };
 
     static async buscar (idUsuarioLogado: number, idAnimal : number) {
-        if (await mAnimal.temPermissao(idUsuarioLogado, idAnimal)){
-            return await mAnimal.buscarId(idAnimal);
+        if (await AnimalModel.temPermissao(idUsuarioLogado, idAnimal)){
+            return await AnimalModel.buscarId(idAnimal);
         } else {
             return {code: 401, result: {error: `Você não tem permissão para realizar essa operação`}};
         };
     }
 
     static async deletar (idUsuarioLogado: number, idAnimal: number) {
-        if (await mAnimal.temPermissao(idUsuarioLogado, idAnimal)){
-            return await mAnimal.deletar(idAnimal);
+        if (await AnimalModel.temPermissao(idUsuarioLogado, idAnimal)){
+            return await AnimalModel.deletar(idAnimal);
         } else {
             return {code: 401, result: {error: `Você não tem permissão para realizar essa operação`}};
         };
     }
 
-    static async atualizar (idUsuarioLogado: number, animal: iAnimal) {
-        if (await mAnimal.temPermissao(idUsuarioLogado, animal.idAnimal as number)){
-            return await mAnimal.atualizar(animal);
+    static async atualizar (idUsuarioLogado: number, animal: InterfaceAnimal) {
+        if (await AnimalModel.temPermissao(idUsuarioLogado, animal.idAnimal as number)){
+            return await AnimalModel.atualizar(animal);
         } else {
             return {code: 401, result: {error: `Você não tem permissão para realizar essa operação`}};
         };
     }
 
     static async telaPrincipal (idUsuarioLogado: number) {
-        return await mAnimal.telaPrincipal(idUsuarioLogado);
+        return await AnimalModel.telaPrincipal(idUsuarioLogado);
     };
 
     static async listarCampo (idUsuarioLogado: number) {
-        return await mAnimal.listarCampo(idUsuarioLogado);
+        return await AnimalModel.listarCampo(idUsuarioLogado);
     };
 
     static async listarVendido (idUsuarioLogado: number) {
-        return await mAnimal.listarVendido(idUsuarioLogado);
+        return await AnimalModel.listarVendido(idUsuarioLogado);
     };
 
     static async listarMorto (idUsuarioLogado: number) {
-        return await mAnimal.listarMorto(idUsuarioLogado);
+        return await AnimalModel.listarMorto(idUsuarioLogado);
     };
 
     static async listarPai (idUsuarioLogado: number) {
-        return await mAnimal.listarPai(idUsuarioLogado);
+        return await AnimalModel.listarPai(idUsuarioLogado);
     };
 
 }

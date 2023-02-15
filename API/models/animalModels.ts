@@ -1,9 +1,9 @@
 import { db } from "../config/database";
-import { iAnimal } from "../interface/animal";
+import { InterfaceAnimal } from "../interface/animal";
 
-export class mAnimal{
+export class AnimalModel {
 
-        static async adicionar(animal: iAnimal) {
+        static async adicionar(animal: InterfaceAnimal) {
             return new Promise((resolve, rejects) => {
                 db.query(
                 `INSERT INTO TB_Animal
@@ -19,7 +19,7 @@ export class mAnimal{
             })
         }
 
-        static async buscarId (idAnimal: Number) {
+        static async buscarId (idAnimal: number) {
             return new Promise((resolve, rejects) => {
                 db.query(
                 `SELECT * FROM TB_Animal WHERE ID_INT_ANIMAL = ?`, 
@@ -32,7 +32,7 @@ export class mAnimal{
 
         }
 
-        static async deletar (idAnimal: Number) {
+        static async deletar (idAnimal: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`DELETE FROM TB_Animal WHERE ID_INT_ANIMAL = ?`, 
                 [idAnimal], (erro: any) => {
@@ -42,7 +42,7 @@ export class mAnimal{
             })
         }
 
-        static async atualizar (animal: iAnimal) {
+        static async atualizar (animal: InterfaceAnimal) {
             return new Promise((resolve, rejects) => {
                 db.query(`
                 UPDATE FROM TB_Animal SET
@@ -57,7 +57,7 @@ export class mAnimal{
             })
         }
 
-        static async buscarPorCriador (idUsuarioLogado: Number) {
+        static async buscarPorCriador (idUsuarioLogado: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`SELECT * FROM TB_Animal WHERE ID_INT_USUARIO_CRIADOR = ?`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
@@ -67,7 +67,7 @@ export class mAnimal{
             }) 
         }
 
-        static async temPermissao (idUsuarioLogado: Number, idAnimal: Number) {
+        static async temPermissao (idUsuarioLogado: number, idAnimal: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`SELECT ID_INT_USUARIO_CRIADOR FROM TB_Animal WHERE ID_INT_ANIMAL = ?`, [idAnimal], 
                 (erro: any, result: Array<any>) => {
@@ -87,7 +87,7 @@ export class mAnimal{
             })
         }
 
-        static async listarCampo (idUsuarioLogado: Number) {
+        static async listarCampo (idUsuarioLogado: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`
                 SELECT A.ID_INT_ANIMAL, A.INT_NUMERO_ANIMAL, A.ID_INT_PAI, A.CHA_SEXO, 
@@ -104,7 +104,7 @@ export class mAnimal{
             })
         }
 
-        static async listarVendido (idUsuarioLogado: Number) {
+        static async listarVendido (idUsuarioLogado: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`
                 SELECT A.ID_INT_ANIMAL, A.INT_NUMERO_ANIMAL, A.ID_INT_PAI, A.CHA_SEXO, 
@@ -121,7 +121,7 @@ export class mAnimal{
             })
         }
 
-        static async listarMorto (idUsuarioLogado: Number) {
+        static async listarMorto (idUsuarioLogado: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`
                 SELECT A.ID_INT_ANIMAL, A.INT_NUMERO_ANIMAL, A.ID_INT_PAI, A.CHA_SEXO, 
@@ -138,7 +138,7 @@ export class mAnimal{
             })
         }
 
-        static async telaPrincipal (idUsuarioLogado: Number) {
+        static async telaPrincipal (idUsuarioLogado: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`
                 SELECT S.TXT_STATUS, COUNT(*) AS TOTAL FROM TB_Animal A
@@ -162,7 +162,7 @@ export class mAnimal{
             })
         }
 
-        static async listarPai (idUsuarioLogado: Number) {
+        static async listarPai (idUsuarioLogado: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`SELECT ID_INT_ANIMAL, INT_NUMERO_ANIMAL FROM TB_Animal 
                 WHERE ID_INT_USUARIO_CRIADOR = ? AND CHA_SEXO = "F" `,

@@ -1,12 +1,12 @@
 import { Response, Request } from "express";
-import { sPagamento } from "../service/pagamentoService";
+import { PagamentoService } from "../service/pagamentoService";
 import { idUsuarioLogado } from "../utils/usuarioLogado";
 
-export class cPagamento{
+export class PagamentoController {
 
     static async adicionar (req: Request, res: Response) {
-        const { idPagamento, idTipo, charTipo, descricao, dataPagamento, valorPagamento} = req.body;
-        const pagamento = new sPagamento({
+        const { idTipo, charTipo, descricao, dataPagamento, valorPagamento} = req.body;
+        const pagamento = new PagamentoService({
             idCriador: await idUsuarioLogado(req),
             idTipo,
             charTipo,
@@ -14,13 +14,13 @@ export class cPagamento{
             dataPagamento,
             valorPagamento
         })
-        const result: any = await sPagamento.adicionar(pagamento)
+        const result: any = await PagamentoService.adicionar(pagamento)
         res.status(result.code).json(result.result)
     }
 
     static async atualizar (req: Request, res: Response) {
         const { idPagamento, idTipo, charTipo, descricao, dataPagamento, valorPagamento} = req.body;
-        const pagamento = new sPagamento({
+        const pagamento = new PagamentoService({
             idPagamento,
             idCriador: await idUsuarioLogado(req),
             idTipo,
@@ -29,27 +29,27 @@ export class cPagamento{
             dataPagamento,
             valorPagamento
         })
-        const result: any = await sPagamento.atualizar(await idUsuarioLogado(req), pagamento)
+        const result: any = await PagamentoService.atualizar(await idUsuarioLogado(req), pagamento)
         res.status(result.code).json(result.result)
     }
 
     static async buscar (req: Request, res: Response) {
-        const result: any = await sPagamento.buscar(await idUsuarioLogado(req), +req.params.id)
+        const result: any = await PagamentoService.buscar(await idUsuarioLogado(req), +req.params.id)
         res.status(result.code).json(result.result)
     }
 
     static async deletar (req: Request, res: Response) {
-        const result: any = await sPagamento.deletar(await idUsuarioLogado(req), +req.params.id)
+        const result: any = await PagamentoService.deletar(await idUsuarioLogado(req), +req.params.id)
         res.status(result.code).json(result.result)
     }
 
     static async listar (req: Request, res: Response) {
-        const result: any = await sPagamento.listar(await idUsuarioLogado(req))
+        const result: any = await PagamentoService.listar(await idUsuarioLogado(req))
         res.status(result.code).json(result.result)
     }
 
     static async totalPagamentos (req: Request, res: Response) {
-        const result: any = await sPagamento.totalPagamentos(await idUsuarioLogado(req))
+        const result: any = await PagamentoService.totalPagamentos(await idUsuarioLogado(req))
         res.status(result.code).json(result.result)
     }
 }

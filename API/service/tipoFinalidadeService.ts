@@ -1,8 +1,8 @@
-import { mTipoFinalidade } from "../models/tipoFinalidadeModels";
+import { TipoFinalidadeModel } from "../models/tipoFinalidadeModels";
 
-export class sTipoFinalidade {
+export class TipoFinalidadeService {
 
     static async listar(){
-        return await mTipoFinalidade.listar()
+        return await TipoFinalidadeModel.listar()
     }
 }

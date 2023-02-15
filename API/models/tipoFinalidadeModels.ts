@@ -1,6 +1,6 @@
 import { db } from "../config/database";
 
-export class mTipoFinalidade {
+export class TipoFinalidadeModel {
 
     static async listar () {
         return new Promise((resolve, rejects) => {

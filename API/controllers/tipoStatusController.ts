@@ -1,11 +1,11 @@
 import { Request, Response } from "express"
-import { sTipoStatus } from "../service/tipoStatusService"
+import { TipoStatusService } from "../service/tipoStatusService"
 
-export class cTipoStatus {
+export class TipoStatusController {
 
 
     static async listar(req: Request, res: Response) {
-        const result: any =  await sTipoStatus.listar()
+        const result: any =  await TipoStatusService.listar()
         res.status(result.code).json(result.result)
     }
 }

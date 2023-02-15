@@ -1,8 +1,8 @@
-import { mTipoStatus } from "../models/tipoStatusModels";
+import { TipoStatusModel } from "../models/tipoStatusModels";
 
-export class sTipoStatus {
+export class TipoStatusService {
 
     static async listar () {
-        return await mTipoStatus.listar()
+        return await TipoStatusModel.listar()
     }
 }

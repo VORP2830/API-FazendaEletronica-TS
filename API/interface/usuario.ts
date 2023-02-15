@@ -1,4 +1,4 @@
-export interface iUsuario {
+export interface InterfaceUsuario {
     idUsuario?: number,
     senha: string,
     login?: string,

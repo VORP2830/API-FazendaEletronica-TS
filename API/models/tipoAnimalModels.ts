@@ -1,6 +1,6 @@
 import { db } from "../config/database";
 
-export class mTipoAnimal {
+export class TipoAnimalModel {
 
     static async listar () {
         return new Promise((resolve, rejects) => {

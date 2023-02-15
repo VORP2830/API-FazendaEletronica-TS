@@ -1,8 +1,8 @@
-import { mParametro } from "../models/parametroModels";
+import { ParametroModel } from "../models/parametroModels";
 
-export class sParametro {
+export class ParametroService {
 
     static async listar () {
-        return await mParametro.textoEmail()
+        return await ParametroModel.textoEmail()
     }
 }

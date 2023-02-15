@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
-import { sTipoAnimal } from "../service/tipoAnimalService"
+import { TipoAnimalService } from "../service/tipoAnimalService"
 
-export class cTipoAnimal {
+export class TipoAnimalController {
 
     static async listar(req: Request, res: Response) {
-        const result: any =  await sTipoAnimal.listar()
+        const result: any =  await TipoAnimalService.listar()
         res.status(result.code).json(result.result)
     }
 }

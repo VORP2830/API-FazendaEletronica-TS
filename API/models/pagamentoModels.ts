@@ -1,9 +1,9 @@
-import { iPagamento } from "../interface/pagamento";
+import { InterfacePagamento } from "../interface/pagamento";
 import { db } from "../config/database";
 
-export class mPagamento{
+export class PagamentoModel {
 
-    static async adicionar (pagamento: iPagamento) {
+    static async adicionar (pagamento: InterfacePagamento) {
         return new Promise((resolve, rejects) => {
             db.query(`
             INSERT INTO TB_Pagamento
@@ -17,7 +17,7 @@ export class mPagamento{
         })
     }
 
-    static async  atualizar (pagamento: iPagamento) {
+    static async  atualizar (pagamento: InterfacePagamento) {
         return new Promise((resolve, rejects) => {
             db.query(`UPDATE TB_Pagamento
                 SET ID_INT_TIPO_PAGAMENTO = ?, CHAR_TIPO_ENTRADA_SAIDA = ?, 
@@ -31,7 +31,7 @@ export class mPagamento{
         })
     }
 
-    static async buscarId (idPagamento: Number) {
+    static async buscarId (idPagamento: number) {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT * FROM TB_Pagamento WHERE ID_INT_PAGAMENTO = ?`, 
             [idPagamento], (erro, result) => {
@@ -41,7 +41,7 @@ export class mPagamento{
         })
     }
 
-    static async deletar (idPagamento: Number) {
+    static async deletar (idPagamento: number) {
         return new Promise((resolve, rejects) => {
             db.query(`DELETE FROM TB_Pagamento WHERE ID_INT_PAGAMENTO = ?`,[idPagamento], (erro) => {
                 if (erro) rejects({code: 500, result: `Erro ao deletar pagamento: ${erro}`});
@@ -50,7 +50,7 @@ export class mPagamento{
         })
     }
 
-    static async totalPagamentos (IdUsuarioLogado: Number) {
+    static async totalPagamentos (IdUsuarioLogado: number) {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT CHAR_TIPO_ENTRADA_SAIDA, SUM(VLR_PAGAMENTO) AS TOTAL_CALCULADO
                         FROM FazendaEletronica.TB_Pagamento 
@@ -63,7 +63,7 @@ export class mPagamento{
         })
     }
 
-    static async temPermissao (IdUsuarioLogado: Number, idPagamento: Number) {
+    static async temPermissao (IdUsuarioLogado: number, idPagamento: number) {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT ID_INT_USUARIO_CRIADOR FROM TB_Pagamento WHERE ID_INT_PAGAMENTO = ?`, [idPagamento], 
             (erro, result: Array<any>) => {
@@ -83,7 +83,7 @@ export class mPagamento{
         })
     }
 
-    static async listar (IdUsuarioLogado: Number) {
+    static async listar (IdUsuarioLogado: number) {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT P.ID_INT_PAGAMENTO, P.CHAR_TIPO_ENTRADA_SAIDA, P.TXT_DESCRICAO, P.DAT_PAGAMENTO, P.VLR_PAGAMENTO, TP.TXT_NOME FROM FazendaEletronica.TB_Pagamento P
             JOIN FazendaEletronica.TB_Tipo_Pagamento TP ON TP.ID_INT_TIPO_PAGAMENTO = P.ID_INT_TIPO_PAGAMENTO
