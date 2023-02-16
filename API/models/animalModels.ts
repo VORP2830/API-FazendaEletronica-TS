@@ -90,11 +90,12 @@ export class AnimalModel {
         static async listarCampo (idUsuarioLogado: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`
-                SELECT A.ID_INT_ANIMAL, A.INT_NUMERO_ANIMAL, A.ID_INT_PAI, A.CHA_SEXO, 
+                SELECT A.ID_INT_ANIMAL, A.INT_NUMERO_ANIMAL, P.INT_NUMERO_ANIMAL AS NUMERO_PAI, A.CHA_SEXO, 
                 F.TXT_NOME, A.TXT_APELIDO, A.DAT_NASCIMENTO, S.TXT_STATUS, TA.TXT_NOME FROM TB_Animal A
                 JOIN TB_Finalidade F on A.ID_INT_FINALIDADE = F.ID_INT_FINALIDADE
                 JOIN TB_Status S ON S.ID_INT_STATUS = A.ID_INT_STATUS
                 JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
+                JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN
                 (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Em Campo')`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
@@ -107,11 +108,12 @@ export class AnimalModel {
         static async listarVendido (idUsuarioLogado: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`
-                SELECT A.ID_INT_ANIMAL, A.INT_NUMERO_ANIMAL, A.ID_INT_PAI, A.CHA_SEXO, 
+                SELECT A.ID_INT_ANIMAL, A.INT_NUMERO_ANIMAL, P.INT_NUMERO_ANIMAL AS NUMERO_PAI, A.CHA_SEXO, 
                 F.TXT_NOME, A.TXT_APELIDO, A.DAT_NASCIMENTO, S.TXT_STATUS, TA.TXT_NOME FROM TB_Animal A
                 JOIN TB_Finalidade F on A.ID_INT_FINALIDADE = F.ID_INT_FINALIDADE
                 JOIN TB_Status S ON S.ID_INT_STATUS = A.ID_INT_STATUS
                 JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
+                JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN 
                 (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Vendido')`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
@@ -124,11 +126,12 @@ export class AnimalModel {
         static async listarMorto (idUsuarioLogado: number) {
             return new Promise((resolve, rejects) => {
                 db.query(`
-                SELECT A.ID_INT_ANIMAL, A.INT_NUMERO_ANIMAL, A.ID_INT_PAI, A.CHA_SEXO, 
+                SELECT A.ID_INT_ANIMAL, A.INT_NUMERO_ANIMAL, P.INT_NUMERO_ANIMAL AS NUMERO_PAI, A.CHA_SEXO, 
                 F.TXT_NOME, A.TXT_APELIDO, A.DAT_NASCIMENTO, S.TXT_STATUS, TA.TXT_NOME FROM TB_Animal A
                 JOIN TB_Finalidade F on A.ID_INT_FINALIDADE = F.ID_INT_FINALIDADE
                 JOIN TB_Status S ON S.ID_INT_STATUS = A.ID_INT_STATUS
                 JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
+                JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN 
                 (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Morto')`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
