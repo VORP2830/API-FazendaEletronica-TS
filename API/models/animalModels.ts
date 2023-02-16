@@ -45,9 +45,9 @@ export class AnimalModel {
         static async atualizar (animal: InterfaceAnimal) {
             return new Promise((resolve, rejects) => {
                 db.query(`
-                UPDATE FROM TB_Animal SET
+                UPDATE TB_Animal SET
                 INT_NUMERO_ANIMAL = ?, ID_INT_PAI = ?, CHA_SEXO = ?, ID_INT_FINALIDADE = ?, 
-                TXT_APELIDO = ?, DAT_NASICMENTO = ?, ID_INT_STATUS = ?, ID_INT_TIPO_ANIMAL = ?, DAT_MODIFICACAO = NOW()
+                TXT_APELIDO = ?, DAT_NASCIMENTO = ?, ID_INT_STATUS = ?, ID_INT_TIPO_ANIMAL = ?, DAT_MODIFICACAO = NOW()
                 WHERE ID_INT_ANIMAL = ?`,
                 [animal.numero, animal.idPai, animal.charSexo, animal.idFinalidade, animal.apelido, 
                 animal.nascimento, animal.idStatus, animal.idTipoAnimal, animal.idAnimal], (erro: any) => {
