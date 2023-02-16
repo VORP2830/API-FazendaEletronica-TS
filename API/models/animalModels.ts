@@ -95,7 +95,7 @@ export class AnimalModel {
                 JOIN TB_Finalidade F on A.ID_INT_FINALIDADE = F.ID_INT_FINALIDADE
                 JOIN TB_Status S ON S.ID_INT_STATUS = A.ID_INT_STATUS
                 JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
-                JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
+                LEFT JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN
                 (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Em Campo')`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
@@ -113,7 +113,7 @@ export class AnimalModel {
                 JOIN TB_Finalidade F on A.ID_INT_FINALIDADE = F.ID_INT_FINALIDADE
                 JOIN TB_Status S ON S.ID_INT_STATUS = A.ID_INT_STATUS
                 JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
-                JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
+                LEFT JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN 
                 (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Vendido')`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
@@ -131,7 +131,7 @@ export class AnimalModel {
                 JOIN TB_Finalidade F on A.ID_INT_FINALIDADE = F.ID_INT_FINALIDADE
                 JOIN TB_Status S ON S.ID_INT_STATUS = A.ID_INT_STATUS
                 JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
-                JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
+                LEFT JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN 
                 (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Morto')`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
