@@ -57,7 +57,7 @@ export class AnimalController {
     }
 
     static async atualizar (req: Request, res: Response) {
-        const { idAnimal, numero, idPai, charSexo, idFinalidade, apelido, nascimento, idStatus, idTipoAnimal } = req.body;
+        const { idAnimal, numero, idPai, charSexo, idFinalidade, apelido, nascimento, idStatus, idTipoAnimal, dataVenda } = req.body;
         const animal = new AnimalService({
             idAnimal,
             idCriador: await idUsuarioLogado(req),
@@ -68,9 +68,15 @@ export class AnimalController {
             apelido,
             nascimento,
             idStatus,
-            idTipoAnimal
+            idTipoAnimal,
+            dataVenda
         })
         const result: any = await AnimalService.atualizar(await idUsuarioLogado(req), animal)
+        res.status(result.code).json(result.result)
+    }
+
+    static async listarMediaFilhosAnimal(req: Request, res: Response) {
+        const result: any = await AnimalService.listarMediaFilhosAnimal(await idUsuarioLogado(req))
         res.status(result.code).json(result.result)
     }
 

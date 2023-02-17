@@ -8,5 +8,6 @@ export interface InterfaceAnimal {
     apelido?: string,
     nascimento?: Date,
     idStatus: number,
-    idTipoAnimal: number
+    idTipoAnimal: number,
+    dataVenda?: Date
 }

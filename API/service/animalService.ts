@@ -12,6 +12,7 @@ export class AnimalService {
     nascimento?: Date;
     idStatus: number;
     idTipoAnimal: number;
+    dataVenda?: Date;
 
     constructor(animal: InterfaceAnimal){
         this.idAnimal = animal.idAnimal;
@@ -24,6 +25,7 @@ export class AnimalService {
         this.nascimento = animal.nascimento;
         this.idStatus = animal.idStatus;
         this.idTipoAnimal = animal.idTipoAnimal;
+        this.dataVenda = animal.dataVenda;
     }
 
     static async adicionar (animal: InterfaceAnimal) {
@@ -74,4 +76,7 @@ export class AnimalService {
         return await AnimalModel.listarPai(idUsuarioLogado);
     };
 
+    static async listarMediaFilhosAnimal(idUsuarioLogado: number) {
+        return await AnimalModel.listarMediaFilhosAnimal(idUsuarioLogado);
+    };
 }
