@@ -18,4 +18,10 @@ export class RelatorioController {
         const result: any = await RelatorioService.relatorioTipoPagamento(await idUsuarioLogado(req))
         res.status(result.code).json(result.result)
     }
+
+    static async relatorioMortosVendidosAno (req: Request, res: Response) {
+        const result: any = await RelatorioService.relatorioMortosVendidosAno(await idUsuarioLogado(req))
+        res.status(result.code).json(result.result)
+    }
+
 }

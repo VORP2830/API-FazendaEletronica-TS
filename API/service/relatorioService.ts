@@ -13,4 +13,8 @@ export class RelatorioService {
     static async relatorioTipoPagamento(idUsuarioLogado: number) {
         return await RelatorioModels.relatorioTipoPagamento(idUsuarioLogado)
     }
+
+    static async relatorioMortosVendidosAno (idUsuarioLogado: number) {
+        return await RelatorioModels.relatorioMortosVendidosAno(idUsuarioLogado)
+    }
 }

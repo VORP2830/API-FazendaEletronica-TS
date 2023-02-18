@@ -1,4 +1,6 @@
+import { resolve } from "path";
 import { db } from "../config/database";
+import { rejects } from "assert";
 
 export class RelatorioModels {
 
@@ -46,6 +48,25 @@ export class RelatorioModels {
             JOIN TB_Tipo_Pagamento t ON p.ID_INT_TIPO_PAGAMENTO = t.ID_INT_TIPO_PAGAMENTO
             WHERE p.ID_INT_USUARIO_CRIADOR = ?
             GROUP BY ANO, t.ID_INT_TIPO_PAGAMENTO`, [idUsuarioLogado], (erro: any, result: any) => {
+                if (erro) rejects({code: 500, result: {error: erro}});
+                else resolve({code: 200, result: {result: result}});  
+            })
+        })
+    }
+
+    static async relatorioMortosVendidosAno (idUsuarioLogado: number) {
+        return new Promise((resolve, rejects) => {
+            db.query(`
+            SELECT 
+            YEAR(a.DAT_MODIFICACAO) AS ANO, 
+            SUM(CASE WHEN s.TXT_STATUS = 'Vendido' THEN 1 ELSE 0 END) AS VENDIDOS, 
+            SUM(CASE WHEN s.TXT_STATUS = 'Morto' THEN 1 ELSE 0 END) AS MORTOS
+            FROM TB_Animal a
+            JOIN TB_Status s ON a.ID_INT_STATUS = s.ID_INT_STATUS
+            WHERE a.ID_INT_USUARIO_CRIADOR = ?
+            AND YEAR(a.DAT_MODIFICACAO) IS NOT NULL
+            GROUP BY YEAR(a.DAT_MODIFICACAO)
+            `, [idUsuarioLogado], (erro: any, result: any) => {
                 if (erro) rejects({code: 500, result: {error: erro}});
                 else resolve({code: 200, result: {result: result}});  
             })
