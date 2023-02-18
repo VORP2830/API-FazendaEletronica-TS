@@ -75,8 +75,4 @@ export class AnimalService {
     static async listarPai (idUsuarioLogado: number) {
         return await AnimalModel.listarPai(idUsuarioLogado);
     };
-
-    static async listarMediaFilhosAnimal(idUsuarioLogado: number) {
-        return await AnimalModel.listarMediaFilhosAnimal(idUsuarioLogado);
-    };
 }

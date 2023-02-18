@@ -9,6 +9,7 @@ import { router as animalRouter } from './animalRouter';
 import { router as tipoAnimalRouter } from './tipoAnimalRouter';
 import { router as tipoFinalidadeRouter } from './tipoFinalidadeRouter';
 import { router as tipoStatusRouter } from './tipoStatusRouter';
+import { router as relatorioRouter } from './relatorioRouter';
 
 const app = Router();
 
@@ -25,7 +26,8 @@ app.use(
     animalRouter,
     tipoAnimalRouter,
     tipoFinalidadeRouter,
-    tipoStatusRouter
+    tipoStatusRouter,
+    relatorioRouter
 )
 
 export { app }

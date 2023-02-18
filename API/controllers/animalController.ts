@@ -75,9 +75,4 @@ export class AnimalController {
         res.status(result.code).json(result.result)
     }
 
-    static async listarMediaFilhosAnimal(req: Request, res: Response) {
-        const result: any = await AnimalService.listarMediaFilhosAnimal(await idUsuarioLogado(req))
-        res.status(result.code).json(result.result)
-    }
-
 }

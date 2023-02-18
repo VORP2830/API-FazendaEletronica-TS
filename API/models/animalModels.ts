@@ -176,21 +176,4 @@ export class AnimalModel {
                     })
             })
         }
-
-        static async listarMediaFilhosAnimal (idUsuarioLogado: number) {
-            return new Promise((resolve, rejects) => {
-                db.query(`
-                SELECT INT_NUMERO_ANIMAL, COUNT(filhos.ID_INT_ANIMAL) AS QUANTIDADE_FILHOS, 
-                IFNULL(COUNT(filhos.ID_INT_ANIMAL) / TIMESTAMPDIFF(YEAR, DAT_NASCIMENTO, NOW()), 0) AS MEDIA_FILHOS_POR_ANO, 
-                DAT_NASCIMENTO, TIMESTAMPDIFF(YEAR, DAT_NASCIMENTO, NOW()) AS IDADE FROM TB_Animal LEFT JOIN (
-                SELECT ID_INT_ANIMAL, ID_INT_PAI FROM TB_Animal WHERE YEAR(DAT_NASCIMENTO) BETWEEN YEAR(DATE_SUB(NOW(), INTERVAL 1 YEAR)) AND YEAR(NOW())) AS filhos ON TB_Animal.ID_INT_ANIMAL = filhos.ID_INT_PAI
-                WHERE ID_INT_USUARIO_CRIADOR = ? AND DAT_NASCIMENTO IS NOT NULL AND CHA_SEXO = 'F'
-                GROUP BY INT_NUMERO_ANIMAL, DAT_NASCIMENTO
-                ORDER BY MEDIA_FILHOS_POR_ANO DESC`, [idUsuarioLogado], (erro: any, result: any) => {
-                    if (erro) rejects({code: 500, result: {error: erro}});
-                    else resolve({code: 200, result: {result: result}});  
-                })
-            })
-        }
-
 }
