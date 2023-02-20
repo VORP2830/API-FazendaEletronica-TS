@@ -37,4 +37,10 @@ export class UsuarioController {
         const result:any = await UsuarioService.alterarSenha(usuario)
         res.status(result.code).json(result.result)
     }
+
+    static async autenticado (req: Request, res: Response) {
+        const token: any = req.headers.token;
+        const result: any = await UsuarioService.autenticado(token)
+        res.status(result.code).json(result.result)
+    }
 }

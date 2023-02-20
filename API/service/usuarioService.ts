@@ -45,6 +45,16 @@ export class UsuarioService {
     }
 
     static async alterarSenha (usuario: InterfaceUsuario) {
-        return UsuarioModel.alterarSenha(usuario)
+        return await UsuarioModel.alterarSenha(usuario)
+    }
+
+    static async autenticado (token: any) {
+        if (!token) return {code: 401, result: {auth: false, error: `Você precisa estar autenticado`}}
+        return new Promise((resolve, reject) => {
+            jwt.verify(token, secret, (err: any, decoded: any) => {
+                if (err) reject ({ code: 500, result: {auth: false, error: 'Falha ao tentar autentica o token'} })
+                else resolve ({ code: 200, result: {auth: true, result: 'Usuario autenticado'} })
+              });
+        })
     }
 }
