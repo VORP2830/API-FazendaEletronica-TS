@@ -11,7 +11,7 @@ export class PagamentoModel {
             VALUES(?,?,?,?,?,?)`, 
             [pagamento.idCriador, pagamento.idTipo, pagamento.charTipo, pagamento.descricao, pagamento.dataPagamento,pagamento.valorPagamento],
             erro => {
-                if (erro) rejects({code: 500, result: {error: `Erro ao inserir pagamento: ${erro}`}})
+                if (erro) rejects({code: 200, result: {error: `Erro ao inserir pagamento: ${erro}`}})
                 else resolve({code: 201, result: {result: `Pagamento adicionado`}})
             })
         })
@@ -25,7 +25,7 @@ export class PagamentoModel {
                 WHERE ID_INT_PAGAMENTO = ?`,
                 [pagamento.idTipo, pagamento.charTipo, pagamento.descricao, pagamento.dataPagamento, 
                     pagamento.valorPagamento, pagamento.idPagamento], erro => {
-                    if (erro) rejects({code: 500, result: {error: `Erro ao atualizar pagamento: ${erro}`}})
+                    if (erro) rejects({code: 200, result: {error: `Erro ao atualizar pagamento: ${erro}`}})
                     else resolve ({code: 200, result: {result: `Pagamento alterado`}})
                 })
         })
@@ -35,7 +35,7 @@ export class PagamentoModel {
         return new Promise((resolve, rejects) => {
             db.query(`SELECT * FROM TB_Pagamento WHERE ID_INT_PAGAMENTO = ?`, 
             [idPagamento], (erro, result) => {
-                if (erro) rejects({code: 500, result: {error: `Pagamento inexistente`}});
+                if (erro) rejects({code: 200, result: {error: `Pagamento inexistente`}});
                 else resolve({code: 200, result: {result: result}});
             })
         })
@@ -44,7 +44,7 @@ export class PagamentoModel {
     static async deletar (idPagamento: number) {
         return new Promise((resolve, rejects) => {
             db.query(`DELETE FROM TB_Pagamento WHERE ID_INT_PAGAMENTO = ?`,[idPagamento], (erro) => {
-                if (erro) rejects({code: 500, result: `Erro ao deletar pagamento: ${erro}`});
+                if (erro) rejects({code: 200, result: `Erro ao deletar pagamento: ${erro}`});
                 else resolve({code: 200, result: {result: "Pagamento excluido"}})
             })
         })
@@ -57,7 +57,7 @@ export class PagamentoModel {
                         WHERE ID_INT_USUARIO_CRIADOR = ? AND 
                         YEAR(DAT_PAGAMENTO ) = YEAR(NOW()) AND MONTH(DAT_PAGAMENTO) = MONTH(NOW())
                         GROUP BY CHAR_TIPO_ENTRADA_SAIDA`, [IdUsuarioLogado], (erro, result) => {
-                if (erro) rejects({code: 500, result: {error: `Erro ao pegar pagamentos: ${erro}`}})
+                if (erro) rejects({code: 200, result: {error: `Erro ao pegar pagamentos: ${erro}`}})
                 else resolve({code: 200, result: {result: result}})
             })
         })
@@ -89,7 +89,7 @@ export class PagamentoModel {
             JOIN FazendaEletronica.TB_Tipo_Pagamento TP ON TP.ID_INT_TIPO_PAGAMENTO = P.ID_INT_TIPO_PAGAMENTO
             WHERE P.ID_INT_USUARIO_CRIADOR = ?`, 
             [IdUsuarioLogado], (erro, result) => {
-                if (erro) rejects({code: 500, result: {error: "Não existem pagamentos cadastrados"}});
+                if (erro) rejects({code: 200, result: {error: "Não existem pagamentos cadastrados"}});
                 else resolve ({code: 200, result: {result: result}});
             })
         })

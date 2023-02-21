@@ -24,37 +24,53 @@ export class UsuarioService {
     }
     
     static async adicionar (usuario: InterfaceUsuario) {
-        const buscarEmail: any = await UsuarioModel.buscarEmail(usuario.email as string);
-        const buscarLogin: any = await UsuarioModel.buscarLogin(usuario.login as string);
-        if(buscarEmail.result.result.length > 0) return {code: 200, result: {error: `Email já em uso`}}
-        else if(buscarLogin.result.result.length > 0) return {code: 200, result: {error: `Login ja em uso`}}
-        else if(buscarEmail.result.result.length == 0 && buscarLogin.result.result.length == 0) return await UsuarioModel.adicionar(usuario)
-        else return {code: 500, result: {error: `Era para ter dado certo!`}}
+        try {
+            const buscarEmail: any = await UsuarioModel.buscarEmail(usuario.email as string);
+            const buscarLogin: any = await UsuarioModel.buscarLogin(usuario.login as string);
+            if(buscarEmail.result.result.length > 0) return {code: 200, result: {error: `Email já em uso`}}
+            else if(buscarLogin.result.result.length > 0) return {code: 200, result: {error: `Login ja em uso`}}
+            else if(buscarEmail.result.result.length == 0 && buscarLogin.result.result.length == 0) return await UsuarioModel.adicionar(usuario)
+            else return {code: 200, result: {error: `Era para ter dado certo!`}}
+        } catch (error) {
+            return error
+        }
     }
 
     static async login (usuario: InterfaceUsuario) {
-        const buscarLogin: any = await UsuarioModel.buscarLogin(usuario.login as string);
-        if(buscarLogin.result.result.length == 0) return {code: 200, result: {error: `Login ou senha invalidos`}}
-        else if(buscarLogin.result.result.length == 1) {
-            const senhaCorreta = compareSync(usuario.senha, buscarLogin.result.result[0].TXT_PASSWORD)
-            if(senhaCorreta) {
-                const token: string = jwt.sign({ idUsuario: buscarLogin.result.result[0].ID_INT_USUARIO}, secret, {expiresIn: 7200})
-                return { code: 200, result: {token: token} }
-            } else return { code: 200, result: {error: `Login ou senha invalidos`}}
+        try {
+            const buscarLogin: any = await UsuarioModel.buscarLogin(usuario.login as string);
+            if(buscarLogin.result.result.length == 0) return {code: 200, result: {error: `Login ou senha invalidos`}}
+            else if(buscarLogin.result.result.length == 1) {
+                const senhaCorreta = compareSync(usuario.senha, buscarLogin.result.result[0].TXT_PASSWORD)
+                if(senhaCorreta) {
+                    const token: string = jwt.sign({ idUsuario: buscarLogin.result.result[0].ID_INT_USUARIO}, secret, {expiresIn: 7200})
+                    return { code: 200, result: {token: token} }
+                } else return { code: 200, result: {error: `Login ou senha invalidos`}}
+            }
+        } catch (error) {
+            return error
         }
     }
 
     static async alterarSenha (usuario: InterfaceUsuario) {
-        return await UsuarioModel.alterarSenha(usuario)
+        try {
+            return await UsuarioModel.alterarSenha(usuario)
+        } catch (error) {
+            return error
+        }
     }
 
     static async autenticado (token: any) {
-        if (!token) return {code: 401, result: {auth: false, error: `Você precisa estar autenticado`}}
-        return new Promise((resolve, reject) => {
-            jwt.verify(token, secret, (err: any, decoded: any) => {
-                if (err) reject ({ code: 500, result: {auth: false, error: 'Falha ao tentar autentica o token'} })
-                else resolve ({ code: 200, result: {auth: true, result: 'Usuario autenticado'} })
-              });
-        })
+        if (!token) return {code: 200, result: {auth: false, error: `Você precisa estar autenticado`}}
+        try {
+            return new Promise((resolve, reject) => {
+                jwt.verify(token, secret, (err: any, decoded: any) => {
+                    if (err) reject ({ code: 200, result: {auth: false, error: 'Falha ao tentar autentica o token'} })
+                    else resolve ({ code: 200, result: {auth: true, result: 'Usuario autenticado'} })
+                  });
+            })
+        } catch (error) {
+            return error
+        }
     }
 }

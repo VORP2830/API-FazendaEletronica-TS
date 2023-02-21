@@ -17,34 +17,54 @@ export class TipoPagamentoService {
     }
 
     static async adicionar (tipoPagamento: InterfaceTipoPagamento) {
-        return await TipoPagamentoModel.adicionar(tipoPagamento)
+        try {
+            return await TipoPagamentoModel.adicionar(tipoPagamento)
+        } catch (error) {
+            return error
+        }
     }
 
     static async atualizar (idUsuarioLogado: number, tipoPagamento: InterfaceTipoPagamento) {
-        if (await TipoPagamentoModel.temPermissao(idUsuarioLogado, tipoPagamento.idTipoPagamento as number)){
-            return await TipoPagamentoModel.atualizar(tipoPagamento)
-        } else {
-            return {code: 401, result: {error: `Você não tem permissão para realizar essa operação`}}
+        try {
+            if (await TipoPagamentoModel.temPermissao(idUsuarioLogado, tipoPagamento.idTipoPagamento as number)){
+                return await TipoPagamentoModel.atualizar(tipoPagamento)
+            } else {
+                return {code: 200, result: {error: `Você não tem permissão para realizar essa operação`}}
+            }
+        } catch (error) {
+            return error
         }
     }
 
     static async deletar (idUsuarioLogado: number, idPagamento: number) {
-        if (await TipoPagamentoModel.temPermissao(idUsuarioLogado, idPagamento)){
-            return await TipoPagamentoModel.deletar(idPagamento)
-        } else {
-            return {code: 401, result: {error: `Você não tem permissão para realizar essa operação`}}
+        try {
+            if (await TipoPagamentoModel.temPermissao(idUsuarioLogado, idPagamento)){
+                return await TipoPagamentoModel.deletar(idPagamento)
+            } else {
+                return {code: 200, result: {error: `Você não tem permissão para realizar essa operação`}}
+            }
+        } catch (error) {
+            return error
         }
     }
 
     static async buscar (idUsuarioLogado: number, idPagamento: number) {
-        if (await TipoPagamentoModel.temPermissao(idUsuarioLogado, idPagamento)){
-            return await TipoPagamentoModel.buscarId(idPagamento)
-        } else {
-           return {code: 401, result: {error: `Você não tem permissão para realizar essa operação`}}
+        try {
+            if (await TipoPagamentoModel.temPermissao(idUsuarioLogado, idPagamento)){
+                return await TipoPagamentoModel.buscarId(idPagamento)
+            } else {
+               return {code: 200, result: {error: `Você não tem permissão para realizar essa operação`}}
+            }
+        } catch (error) {
+            return error
         }
     }
 
     static async listar (idUsuarioLogado: number) {
-        return await TipoPagamentoModel.listar(idUsuarioLogado)
+        try {
+            return await TipoPagamentoModel.listar(idUsuarioLogado)
+        } catch (error) {
+            return error
+        }
     }
 }

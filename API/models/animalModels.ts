@@ -13,7 +13,7 @@ export class AnimalModel {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
                 [animal.idCriador, animal.numero, animal.idPai, animal.charSexo, animal.idFinalidade, 
                 animal.apelido, animal.nascimento, animal.idStatus, animal.idTipoAnimal], (erro: any) => {
-                    if (erro) rejects({code: 500, result: {error: erro}});
+                    if (erro) rejects({code: 200, result: {error: erro}});
                     else resolve({code: 201, result: {result: "Animal cadastrado com sucesso"}});
                 }
                 )
@@ -25,7 +25,7 @@ export class AnimalModel {
                 db.query(
                 `SELECT * FROM TB_Animal WHERE ID_INT_ANIMAL = ?`, 
                 [idAnimal], (erro: any, result: any) => {
-                    if (erro) rejects({code: 500, result: {error: `Animal inexistente: ${erro}`}});
+                    if (erro) rejects({code: 200, result: {error: `Animal inexistente: ${erro}`}});
                     else resolve ({code: 200, result: {result: result}});
                     }  
                 )
@@ -37,7 +37,7 @@ export class AnimalModel {
             return new Promise((resolve, rejects) => {
                 db.query(`DELETE FROM TB_Animal WHERE ID_INT_ANIMAL = ?`, 
                 [idAnimal], (erro: any) => {
-                    if (erro) rejects({code: 500, result: {error: `Erro ao deletar pagamento: ${erro}`}});
+                    if (erro) rejects({code: 200, result: {error: `Erro ao deletar pagamento: ${erro}`}});
                     else resolve ({code: 200, result: {result: "Animal deletado"}})
                 })
             })
@@ -52,7 +52,7 @@ export class AnimalModel {
                 WHERE ID_INT_ANIMAL = ?`,
                 [animal.numero, animal.idPai, animal.charSexo, animal.idFinalidade, animal.apelido, 
                 animal.nascimento, animal.idStatus, animal.idTipoAnimal, animal.dataVenda, animal.idAnimal], (erro: any) => {
-                    if (erro) rejects({code: 500, result: {error: `Erro ao atualizar pagamento: ${erro}`}});
+                    if (erro) rejects({code: 200, result: {error: `Erro ao atualizar pagamento: ${erro}`}});
                     else resolve ({code: 200, result: {result: "Animal alterado com sucesso"}});
                 })
             })
@@ -62,7 +62,7 @@ export class AnimalModel {
             return new Promise((resolve, rejects) => {
                 db.query(`SELECT * FROM TB_Animal WHERE ID_INT_USUARIO_CRIADOR = ?`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
-                    if (erro) rejects({code: 500, result: {error: `Não existem animais cadastrados: ${erro}`}});
+                    if (erro) rejects({code: 200, result: {error: `Não existem animais cadastrados: ${erro}`}});
                     else resolve ({code: 200, result: {result: result}});
                 })
             }) 
@@ -100,7 +100,7 @@ export class AnimalModel {
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN
                 (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Em Campo')`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
-                    if (erro) rejects({code: 500, result: {error: erro}});
+                    if (erro) rejects({code: 200, result: {error: erro}});
                     else resolve({code: 200, result: {result: result}});
                 })
             })
@@ -118,7 +118,7 @@ export class AnimalModel {
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN 
                 (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Vendido')`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
-                    if (erro) rejects({code: 500, result: {error: erro}});
+                    if (erro) rejects({code: 200, result: {error: erro}});
                     else resolve({code: 200, result: {result: result}});
                 })
             })
@@ -136,7 +136,7 @@ export class AnimalModel {
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN 
                 (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Morto')`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
-                    if (erro) rejects({code: 500, result: {error: erro}});
+                    if (erro) rejects({code: 200, result: {error: erro}});
                     else resolve({code: 200, result: {result: result}});
                 })
             })
@@ -160,7 +160,7 @@ export class AnimalModel {
                             AND YEAR(A.DAT_MODIFICACAO) = YEAR(NOW()) AND MONTH(A.DAT_MODIFICACAO) = MONTH(NOW())
                             GROUP BY S.ID_INT_STATUS`
                 ,[idUsuarioLogado, idUsuarioLogado], (erro: any, result: any) => {
-                    if (erro) rejects({code: 500, result: {error: erro}});
+                    if (erro) rejects({code: 200, result: {error: erro}});
                     else resolve({code: 200, result: {result: result}});
                 })
             })
@@ -171,7 +171,7 @@ export class AnimalModel {
                 db.query(`SELECT ID_INT_ANIMAL, INT_NUMERO_ANIMAL FROM TB_Animal 
                 WHERE ID_INT_USUARIO_CRIADOR = ? AND CHA_SEXO = "F" `,
                 [idUsuarioLogado], (erro: any, result: any) => {
-                    if (erro) rejects({code: 500, result: {error: erro}});
+                    if (erro) rejects({code: 200, result: {error: erro}});
                     else resolve({code: 200, result: {result: result}});
                     })
             })

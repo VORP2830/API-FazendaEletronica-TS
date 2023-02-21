@@ -20,29 +20,53 @@ export class PagamentoService {
         this.valorPagamento = pagamento.valorPagamento;
     }
     static async adicionar (pagamento: InterfacePagamento) {
-        return await PagamentoModel.adicionar(pagamento)
+        try {
+            return await PagamentoModel.adicionar(pagamento)
+        } catch (error) {
+            return error
+        }
     }
 
     static async buscar (idUsuarioLogado: number, idPagemento: number) {
-        if(await PagamentoModel.temPermissao(idUsuarioLogado, idPagemento)) return await PagamentoModel.buscarId(idPagemento)
-        else return {code: 401, result: {error: `Você não tem permissão para realizar essa operação`}}
+        try {
+            if(await PagamentoModel.temPermissao(idUsuarioLogado, idPagemento)) return await PagamentoModel.buscarId(idPagemento)
+            else return {code: 200, result: {error: `Você não tem permissão para realizar essa operação`}}
+        } catch (error) {
+            return error
+        }
     }
 
     static async deletar (idUsuarioLogado: number, idPagemento: number) {
-        if (await PagamentoModel.temPermissao(idUsuarioLogado, idPagemento)) return await PagamentoModel.deletar(idPagemento)
-        else return {code: 401, result: {error: `Você não tem permissão para realizar essa operação`}}
+        try {
+            if (await PagamentoModel.temPermissao(idUsuarioLogado, idPagemento)) return await PagamentoModel.deletar(idPagemento)
+        else return {code: 200, result: {error: `Você não tem permissão para realizar essa operação`}}
+        } catch (error) {
+            return error
+        }
     }
 
     static async atualizar (idUsuarioLogado: number, pagamento: InterfacePagamento) {
-        if (await PagamentoModel.temPermissao(idUsuarioLogado, pagamento.idPagamento as number))return await PagamentoModel.atualizar(pagamento)
-        else return {code: 401, result: {error: `Você não tem permissão para realizar essa operação`}}
+        try {
+            if (await PagamentoModel.temPermissao(idUsuarioLogado, pagamento.idPagamento as number))return await PagamentoModel.atualizar(pagamento)
+            else return {code: 200, result: {error: `Você não tem permissão para realizar essa operação`}}
+        } catch (error) {
+           return error 
+        }
     }
 
     static async listar (idUsuarioLogado: number) {
-        return await PagamentoModel.listar(idUsuarioLogado)
+        try {
+            return await PagamentoModel.listar(idUsuarioLogado)
+        } catch (error) {
+            return error
+        }
     }
 
     static async totalPagamentos (idUsuarioLogado: number) {
-        return await PagamentoModel.totalPagamentos(idUsuarioLogado)
+        try {
+            return await PagamentoModel.totalPagamentos(idUsuarioLogado)
+        } catch (error) {
+            return error
+        }
     }
 }

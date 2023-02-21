@@ -14,7 +14,7 @@ export class RelatorioModels {
             WHERE ID_INT_USUARIO_CRIADOR = ? AND DAT_NASCIMENTO IS NOT NULL AND CHA_SEXO = 'F'
             GROUP BY INT_NUMERO_ANIMAL, DAT_NASCIMENTO
             ORDER BY MEDIA_FILHOS_POR_ANO DESC`, [idUsuarioLogado], (erro: any, result: any) => {
-                if (erro) rejects({code: 500, result: {error: erro}});
+                if (erro) rejects({code: 200, result: {error: erro}});
                 else resolve({code: 200, result: {result: result}});  
             })
         })
@@ -30,7 +30,7 @@ export class RelatorioModels {
             FROM TB_Pagamento
             WHERE ID_INT_USUARIO_CRIADOR = ?
             GROUP BY ANO`, [idUsuarioLogado], (erro: any, result: any) => {
-                if (erro) rejects({code: 500, result: {error: erro}});
+                if (erro) rejects({code: 200, result: {error: erro}});
                 else resolve({code: 200, result: {result: result}});  
             })
         })
@@ -48,7 +48,7 @@ export class RelatorioModels {
             JOIN TB_Tipo_Pagamento t ON p.ID_INT_TIPO_PAGAMENTO = t.ID_INT_TIPO_PAGAMENTO
             WHERE p.ID_INT_USUARIO_CRIADOR = ?
             GROUP BY ANO, t.ID_INT_TIPO_PAGAMENTO`, [idUsuarioLogado], (erro: any, result: any) => {
-                if (erro) rejects({code: 500, result: {error: erro}});
+                if (erro) rejects({code: 200, result: {error: erro}});
                 else resolve({code: 200, result: {result: result}});  
             })
         })
@@ -67,7 +67,7 @@ export class RelatorioModels {
             AND YEAR(a.DAT_MODIFICACAO) IS NOT NULL
             GROUP BY YEAR(a.DAT_MODIFICACAO)
             `, [idUsuarioLogado], (erro: any, result: any) => {
-                if (erro) rejects({code: 500, result: {error: erro}});
+                if (erro) rejects({code: 200, result: {error: erro}});
                 else resolve({code: 200, result: {result: result}});  
             })
         })

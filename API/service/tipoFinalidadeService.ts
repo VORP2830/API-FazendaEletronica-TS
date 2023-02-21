@@ -3,6 +3,10 @@ import { TipoFinalidadeModel } from "../models/tipoFinalidadeModels";
 export class TipoFinalidadeService {
 
     static async listar(){
-        return await TipoFinalidadeModel.listar()
+        try {
+            return await TipoFinalidadeModel.listar()
+        } catch (error) {
+            return error
+        }
     }
 }
