@@ -4,7 +4,7 @@ export class TipoAnimalService {
 
     static async listar() {
         try {
-            return TipoAnimalModel.listar()
+            return await TipoAnimalModel.listar()
         } catch (error) {
             return error
         }

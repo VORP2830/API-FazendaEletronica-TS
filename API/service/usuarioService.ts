@@ -63,7 +63,7 @@ export class UsuarioService {
     static async autenticado (token: any) {
         if (!token) return {code: 200, result: {auth: false, error: `Você precisa estar autenticado`}}
         try {
-            return new Promise((resolve, reject) => {
+            return await new Promise((resolve, reject) => {
                 jwt.verify(token, secret, (err: any, decoded: any) => {
                     if (err) reject ({ code: 200, result: {auth: false, error: 'Falha ao tentar autentica o token'} })
                     else resolve ({ code: 200, result: {auth: true, result: 'Usuario autenticado'} })

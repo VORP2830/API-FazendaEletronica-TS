@@ -1,6 +1,4 @@
-import { resolve } from "path";
 import { db } from "../config/database";
-import { rejects } from "assert";
 
 export class RelatorioModels {
 

@@ -1,4 +1,3 @@
-import { rejects } from "assert";
 import { db } from "../config/database";
 import { InterfaceAnimal } from "../interface/animal";
 
