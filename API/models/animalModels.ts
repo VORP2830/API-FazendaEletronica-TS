@@ -4,7 +4,6 @@ import { InterfaceAnimal } from "../interface/animal";
 export class AnimalModel {
 
         static async adicionar(animal: InterfaceAnimal) {
-            console.log(animal)
             return new Promise((resolve, rejects) => {
                 db.query(
                 `INSERT INTO TB_Animal
