@@ -4,6 +4,7 @@ import { InterfaceAnimal } from "../interface/animal";
 export class AnimalModel {
 
         static async adicionar(animal: InterfaceAnimal) {
+            console.log(animal)
             return new Promise((resolve, rejects) => {
                 db.query(
                 `INSERT INTO TB_Animal
@@ -96,8 +97,9 @@ export class AnimalModel {
                 JOIN TB_Status S ON S.ID_INT_STATUS = A.ID_INT_STATUS
                 JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
                 LEFT JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
-                WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN
-                (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Em Campo')`, 
+                WHERE A.ID_INT_USUARIO_CRIADOR = 1 AND A.ID_INT_STATUS IN
+                (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Em Campo')
+                ORDER BY A.INT_NUMERO_ANIMAL ASC`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
                     if (erro) rejects({code: 200, result: {error: erro}});
                     else resolve({code: 200, result: {result: result}});
@@ -115,7 +117,8 @@ export class AnimalModel {
                 JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
                 LEFT JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN 
-                (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Vendido')`, 
+                (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Vendido')
+                ORDER BY A.INT_NUMERO_ANIMAL ASC`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
                     if (erro) rejects({code: 200, result: {error: erro}});
                     else resolve({code: 200, result: {result: result}});
@@ -133,7 +136,8 @@ export class AnimalModel {
                 JOIN TB_Tipo_Animal TA ON TA.ID_INT_TIPO_ANIMAL = A.ID_INT_TIPO_ANIMAL
                 LEFT JOIN TB_Animal P ON A.ID_INT_PAI = P.ID_INT_ANIMAL
                 WHERE A.ID_INT_USUARIO_CRIADOR = ? AND A.ID_INT_STATUS IN 
-                (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Morto')`, 
+                (SELECT ID_INT_STATUS FROM TB_Status WHERE TXT_STATUS LIKE 'Morto')
+                ORDER BY A.INT_NUMERO_ANIMAL ASC`, 
                 [idUsuarioLogado], (erro: any, result: any) => {
                     if (erro) rejects({code: 200, result: {error: erro}});
                     else resolve({code: 200, result: {result: result}});
