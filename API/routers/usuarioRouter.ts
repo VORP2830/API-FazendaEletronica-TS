@@ -7,4 +7,4 @@ export const router = Router();
 router.post('/usuario/register', UsuarioController.adicionar);
 router.post('/usuario/login', UsuarioController.login);
 router.post('/usuario/alterarsenha', auth, UsuarioController.alterarSenhaInterno);
-router.get('/usuario/autenticado', UsuarioController.autenticado)
+router.post('/usuario/autenticado', UsuarioController.autenticado)

@@ -39,7 +39,7 @@ export class UsuarioController {
     }
 
     static async autenticado (req: Request, res: Response) {
-        const token: any = req.headers.token;
+        const { token }: any = req.body;
         const result: any = await UsuarioService.autenticado(token)
         res.status(result.code).json(result.result)
     }
